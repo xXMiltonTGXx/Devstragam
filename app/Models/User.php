@@ -43,4 +43,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // para hacer relacion $usuario=User::find(id);
+    // $usuario->posts eso en tinker
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }
