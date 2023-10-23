@@ -6,7 +6,7 @@
 
 @section('contenido')
 <div class="container mx-auto md:flex">
-    <div class="md:w-1/2">
+    <div class="md:w-1/2 md:pl-10">
         <img src="{{asset('uploads') .'/'. $post->imagen}}" alt="Imagen del post {{$post->titulo}}" >
         <div class="p-3 flex items-center gap-4">
             @auth

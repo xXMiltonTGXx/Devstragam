@@ -9,7 +9,7 @@
 @endpush
 
 @section('contenido')
-    <div class="md:flex md:items-center">
+    <div class="md:flex md:items-center md:px-20">
         <div class="md:w-1/2 px-10">
             {{-- -- dropzone ---}}
             <form action="{{route('imagen.store')}}" method="POST" id="dropzone" enctype="multipart/form-data" class="dropzone
