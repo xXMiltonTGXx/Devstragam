@@ -6,6 +6,8 @@ use App\Models\User;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 class PerfilController extends Controller
@@ -26,10 +28,12 @@ class PerfilController extends Controller
          $request->request->add(['username'=> Str::slug($request['username'])]);
 
         $this->validate($request,[
-            'username' => ['required','unique:users,username,'.auth()->user()->id,'min:3','max:20','not_in:twiiter,editar-perfil'], 
+            'username' => ['required','unique:users,username,'.auth()->user()->id,'min:3','max:20', 'regex:/\w*$/','not_in:twiiter,editar-perfil,login,register'], 
+            'email' => ['required','unique:users,email,'.auth()->user()->id, 'email', 'max:60']
+
             // Rule::unique('users', 'username')->ignore(auth()->user()), otra forma  
         ]);
-
+ 
         if($request->imagen){
             $imagen = $request->file('imagen');
 
@@ -48,9 +52,29 @@ class PerfilController extends Controller
 
         $usuario->username = $request->username;
         $usuario->imagen = $nombreImagen ?? auth()->user()->imagen ?? null;
-
+        $usuario->email = $request->email ?? auth()->user()->email;
         $usuario->save();
 
+        // Cambiar la contraseña
+        if($request->password || $request->new_password){   
+            $this->validate($request, [
+                'password' => 'required|min:6',
+                'new_password' => 'required|min:6'
+            ]); 
+            if(Hash::check($request->password, $usuario->password)){   
+            
+                $usuario->password = Hash::make($request->new_password); 
+                $usuario->save();
+                
+                // Auth::logout();
+                // $request->session()->invalidate();
+                // $request->session()->regenerateToken();
+                // return redirect()->route('login');
+                    
+            } else {  
+                return back()->with('mensaje', 'El password antiguo no coincide.');
+            } 
+        }     
         //redireccionar
         return redirect()->route('posts.index', $usuario->username);
 

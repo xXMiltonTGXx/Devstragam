@@ -38,12 +38,18 @@
                     border-red-500                       
                     @enderror"
                     value="{{auth()->user()->email}}"  
-                    disabled>
+                    >
                     @error('email')
                     <p class=" bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{$message}}</p>
                     @enderror 
                 </div>
+
+                
                 <div class="mb-5">
+                    @if (session('mensaje'))
+                        <p class=" bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{session('mensaje')}}</p>
+                    @endif
+                    
                     <label for="password" class="mb-2 block uppercase text-gray-500 font-bold"> Ingrese la contraseña anterior</label>
                     <input type="password" id="password"name="password" placeholder="Tu Password de Registro"
                     class="border p-3 w-full rounded-lg" 
@@ -51,25 +57,17 @@
                     @error('password')
                     <p class=" bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{$message}}</p>
                     @enderror
+
                 </div>
                 
                 <div class="mb-5">
-                    <label for="password" class="mb-2 block uppercase text-gray-500 font-bold">Ingese la contraseña nueva</label>
-                    <input type="password" id="password"name="password" placeholder="Ingrese el nuevo Password"
+                    <label for="new_password" class="mb-2 block uppercase text-gray-500 font-bold">Ingese la contraseña nueva</label>
+                    <input type="password" id="new_password"name="new_password" placeholder="Ingrese el nuevo Password"
                     class="border p-3 w-full rounded-lg">
-                    @error('password')
-                    <p class=" bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center">{{$message}}</p>
-                    @enderror
-                </div>
-                <div class="mb-5">
-                    <label for="password_confirmation" class="mb-2 block uppercase text-gray-500 font-bold"> Ingrese nuevamente la contraseña nueva</label>
-                    <input type="password" id="password_confirmation"name="password_confirmation" placeholder="Repite el nuevo Password"
-                    class="border p-3 w-full rounded-lg">
-                </div>
+                    
+                </div>  
 
-
-
-                <input type="submit" value="Crear Cuenta" class=" bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg">
+                <input type="submit" value="Guardar Datos" class=" bg-sky-600 hover:bg-sky-700 transition-colors cursor-pointer uppercase font-bold w-full p-3 text-white rounded-lg">
 
             </form>
         </div>
